@@ -40,7 +40,7 @@ class Item extends Equatable {
   }
 
   factory Item.fromJson(Map<String, dynamic>? json) {
-    print("json :" + json.toString());
+    //print("json :" + json.toString());
     if (json != null) {
       return Item(
           id: (json['id'] as int),

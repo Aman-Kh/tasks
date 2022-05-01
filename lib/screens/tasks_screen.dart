@@ -68,6 +68,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   ListView.builder(
                       shrinkWrap: true,
                       itemCount: _itemsList.length,
+                      physics: BouncingScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
                         return _itemCard(context, _itemsList[index]);
                       }),

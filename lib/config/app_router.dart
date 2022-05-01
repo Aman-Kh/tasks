@@ -45,7 +45,7 @@ class RouteGenerator extends NavigatorObserver {
 
   static void addToStack(MaterialPageRoute route) {
     routeStack.add(route);
-    print('PUSHED A NEW ROUTE :${route.settings.name ?? 'UNKNOWN'}');
+    //print('PUSHED A NEW ROUTE :${route.settings.name ?? 'UNKNOWN'}');
     printStackCount();
   }
 
@@ -56,11 +56,11 @@ class RouteGenerator extends NavigatorObserver {
         return;
       }
       routeStack.removeLast();
-      print('REMOVED A ROUTE :${route.settings.name ?? 'UNKNOWN'}');
+      //print('REMOVED A ROUTE :${route.settings.name ?? 'UNKNOWN'}');
       printStackCount();
       super.didPop(route, previousRoute);
     } catch (e) {
-      print('ROUTE GENERATOR EXCEPTION ${e.toString()}');
+      // print('ROUTE GENERATOR EXCEPTION ${e.toString()}');
     }
   }
 
