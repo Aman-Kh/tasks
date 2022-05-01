@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tasks/blocs/items/item_bloc.dart';
 import 'package:tasks/screens/drawer_navigation.dart';
+import 'package:tasks/services/item_service.dart';
 
 import '../models/item.dart';
 
@@ -11,22 +12,33 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          actions: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.refresh)),
-          ],
-          centerTitle: true,
-          title: const Text(
-            'Home',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        title: const Text(
+          'Home',
+          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
-        drawer: const DrawerNavigation(),
-        body: _items('Home - Tasks From API'),
+        actions: [
+          IconButton(
+              onPressed: () async {
+                var itemService = ItemsService();
+                var _items = await itemService.getData() as List;
+                var testList =
+                    List<Item>.from(_items.map((i) => Item.fromJson(i)));
+                //Get only items which userId equals 1
+                var finalList = testList.where((element) {
+                  return element.userId == 1;
+                }).toList();
+
+                BlocProvider.of<ItemBloc>(context)
+                  ..add(RefreshItems(items: finalList));
+              },
+              icon: Icon(Icons.refresh)),
+        ],
       ),
+      drawer: const DrawerNavigation(),
+      body: _items('Home - Tasks From API'),
     );
   }
 
@@ -46,29 +58,32 @@ class HomeScreen extends StatelessWidget {
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
           child: Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Text(
-                      title,
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: BouncingScrollPhysics(),
-                      itemCount: state.items.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return _itemCard(context, state.items[index]);
-                      }),
-                ],
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        title,
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    )
+                  ],
+                ),
+                ListView.builder(
+                    shrinkWrap: true,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: state.items.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return _itemCard(context, state.items[index]);
+                    }),
+              ],
             ),
+            flex: 1,
           ),
         );
       } else {
@@ -79,7 +94,7 @@ class HomeScreen extends StatelessWidget {
 
   Card _itemCard(BuildContext context, Item item) {
     return Card(
-      margin: const EdgeInsets.all(3.0),
+      margin: const EdgeInsets.only(left: 8, right: 8, top: 3, bottom: 3),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(

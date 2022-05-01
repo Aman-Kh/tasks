@@ -12,9 +12,8 @@ void main() async {
   //init Database
   ItemsRepository itemRepository = ItemsRepositoryImpl();
   ItemsService itemService = ItemsService();
-  var _items = await itemService.getData();
-  var items = _items as List;
-  var testList = List<Item>.from(items.map((i) => Item.fromJson(i)));
+  var _items = await itemService.getData() as List;
+  var testList = List<Item>.from(_items.map((i) => Item.fromJson(i)));
   //Get only items which userId equals 1
   var finalList = testList.where((element) {
     return element.userId == 1;

@@ -9,12 +9,14 @@ class ItemInitial extends ItemState {
   List<Object> get props => [];
 }
 
-class ItemLoading extends ItemInitial{}
-class ItemLoaded extends ItemInitial{
+class ItemLoading extends ItemInitial {}
+
+class ItemLoaded extends ItemInitial {
   final List<Item> items;
-  ItemLoaded({this.items = const[]});
+  ItemLoaded({this.items = const []});
 
   @override
-  List<Object> get props=>[items];
-
+  List<Object> get props => [items];
 }
+
+class ItemsRefreshing extends ItemInitial {}

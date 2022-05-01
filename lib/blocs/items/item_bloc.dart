@@ -14,15 +14,22 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
     on<AddToItems>(_onAddToItems);
     on<DeleteItems>(_onDeleteItems);
     on<UpdateItems>(_onUpdateItems);
+    on<RefreshItems>(_onRefresshItems);
   }
 
   final ItemsRepository itemRepository;
 
   void _onLoadItems(LoadItems event, Emitter<ItemState> emit) async {
-    print('Loading Items');
     for (int i = 0; i < event.items.length; i++) {
       await itemRepository.create(event.items[i]);
     }
+    emit(ItemLoaded(items: event.items));
+  }
+
+  void _onRefresshItems(RefreshItems event, Emitter<ItemState> emit) async {
+    //for (int i = 0; i < event.items.length; i++) {
+    //await itemRepository.reload(event.items[i]);
+    //}
     emit(ItemLoaded(items: event.items));
   }
 

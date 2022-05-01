@@ -36,3 +36,12 @@ class DeleteItems extends ItemEvent {
   @override
   List<Object?> get props => [item];
 }
+
+class RefreshItems extends ItemEvent {
+  final List<Item> items;
+
+  const RefreshItems({required this.items});
+
+  @override
+  List<Object?> get props => [items];
+}
