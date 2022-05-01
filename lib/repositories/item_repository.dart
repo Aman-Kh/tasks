@@ -13,7 +13,7 @@ class Repository {
   }
 
   //Get Item from dataBase
-  Future<Item> readItem(int id) async {
+  Future<Item?> readItem(int id) async {
     final db = await _databaseConnection.database;
 
     final maps = await db.query(
@@ -30,7 +30,8 @@ class Repository {
           userId: (maps.first['userId'] as int).toInt(),
           completed: maps.first['completed'] == 'false' ? false : true);
     } else {
-      throw Exception('ID $id not found');
+      return null;
+      //throw Exception('ID $id not found');
     }
   }
 
@@ -54,6 +55,7 @@ class Repository {
   //Update Item
   Future<int> update(Item item) async {
     final db = await _databaseConnection.database;
+    print(item.title);
 
     return db.update(
       tableItems,
@@ -82,7 +84,7 @@ class Repository {
 
 abstract class ItemsRepository {
   Future<List<Item>> readAllItems();
-  Future<Item> readItem(int id);
+  Future<Item?> readItem(int id);
   Future<int?> update(Item item);
   Future<int?> create(Item item);
   Future<int?> delete(int id);
@@ -110,8 +112,8 @@ class ItemsRepositoryImpl extends ItemsRepository {
   }
 
   @override
-  Future<Item> readItem(int id) async {
-    Item item = await _repository.readItem(id);
+  Future<Item?> readItem(int id) async {
+    Item? item = await _repository.readItem(id);
     return item;
   }
 

@@ -57,33 +57,31 @@ class HomeScreen extends StatelessWidget {
       if (state is ItemLoaded) {
         return SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        title,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                    )
-                  ],
-                ),
-                ListView.builder(
-                    shrinkWrap: true,
-                    physics: BouncingScrollPhysics(),
-                    itemCount: state.items.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return _itemCard(context, state.items[index]);
-                    }),
-              ],
-            ),
-            flex: 1,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      title,
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  )
+                ],
+              ),
+              ListView.builder(
+                  scrollDirection: Axis.vertical,
+                  shrinkWrap: true,
+                  physics: BouncingScrollPhysics(),
+                  itemCount: state.items.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return _itemCard(context, state.items[index]);
+                  }),
+            ],
           ),
         );
       } else {

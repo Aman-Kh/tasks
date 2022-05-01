@@ -27,9 +27,14 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
   }
 
   void _onRefresshItems(RefreshItems event, Emitter<ItemState> emit) async {
-    //for (int i = 0; i < event.items.length; i++) {
-    //await itemRepository.reload(event.items[i]);
-    //}
+    //print('REFRESH');
+    for (int i = 0; i < event.items.length; i++) {
+      if (await itemRepository.readItem(event.items[i].id!) == null) {
+        await itemRepository.create(event.items[i]);
+      } else {
+        await itemRepository.update(event.items[i]);
+      }
+    }
     emit(ItemLoaded(items: event.items));
   }
 
@@ -48,9 +53,9 @@ class ItemBloc extends Bloc<ItemEvent, ItemState> {
   void _onDeleteItems(DeleteItems event, Emitter<ItemState> emit) async {
     final state = this.state;
     if (state is ItemLoaded) {
-      print('_onDeleteItems FROM API');
+      //print('_onDeleteItems FROM API');
       var _itemID = await itemRepository.delete(event.item.id!);
-      print('_itemId' + _itemID.toString());
+      //print('_itemId' + _itemID.toString());
       //Delete from API (Bloc)
       List<Item> items = state.items.where((element) {
         return element.id != event.item.id; //_itemID.toString();

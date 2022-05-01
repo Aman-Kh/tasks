@@ -51,29 +51,28 @@ class _TasksScreenState extends State<TasksScreen> {
         ),
         body: SingleChildScrollView(
           scrollDirection: Axis.vertical,
-          child: Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(2),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(2.0),
-                    child: Text(
-                      'Tasks from local database',
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
+          child: Padding(
+            padding: const EdgeInsets.all(2),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(2.0),
+                  child: Text(
+                    'Tasks from local database',
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
                   ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: _itemsList.length,
-                      physics: BouncingScrollPhysics(),
-                      itemBuilder: (BuildContext context, int index) {
-                        return _itemCard(context, _itemsList[index]);
-                      }),
-                ],
-              ),
+                ),
+                ListView.builder(
+                    shrinkWrap: true,
+                    scrollDirection: Axis.vertical,
+                    itemCount: _itemsList.length,
+                    physics: BouncingScrollPhysics(),
+                    itemBuilder: (BuildContext context, int index) {
+                      return _itemCard(context, _itemsList[index]);
+                    }),
+              ],
             ),
           ),
         ),
